@@ -16,7 +16,7 @@ class MainRenderer extends BaseChartRenderer<CandleEntity> {
   List<int> maDayList;
   final ChartStyle chartStyle;
   final ChartColors chartColors;
-  final double mLineStrokeWidth = 1.0;
+  late double mLineStrokeWidth = 1.0;
   double scaleX;
   late Paint mLinePaint;
 
@@ -40,6 +40,7 @@ class MainRenderer extends BaseChartRenderer<CandleEntity> {
             fixedLength: fixedLength) {
     mCandleWidth = this.chartStyle.candleWidth;
     mCandleLineWidth = this.chartStyle.candleLineWidth;
+    mLineStrokeWidth = this.chartStyle.lineStrokeWidth;
     mLinePaint = Paint()
       ..isAntiAlias = true
       ..style = PaintingStyle.stroke
@@ -163,8 +164,11 @@ class MainRenderer extends BaseChartRenderer<CandleEntity> {
     canvas.drawPath(mLineFillPath!, mLineFillPaint);
     mLineFillPath!.reset();
 
-    canvas.drawPath(mLinePath!,
-        mLinePaint..strokeWidth = (mLineStrokeWidth / scaleX).clamp(0.1, 1.0));
+    canvas.drawPath(
+        mLinePath!,
+        mLinePaint
+          ..strokeWidth =
+              (mLineStrokeWidth / scaleX).clamp(0.1, mLineStrokeWidth));
     mLinePath!.reset();
   }
 
@@ -252,13 +256,25 @@ class MainRenderer extends BaseChartRenderer<CandleEntity> {
 //    final int gridRows = 4, gridColumns = 4;
     double rowSpace = chartRect.height / gridRows;
     for (int i = 0; i <= gridRows; i++) {
-      canvas.drawLine(Offset(0, rowSpace * i + topPadding),
-          Offset(chartRect.width, rowSpace * i + topPadding), gridPaint);
+      canvas.drawLine(
+          Offset(0, rowSpace * i + topPadding),
+          Offset(chartRect.width, rowSpace * i + topPadding),
+          Paint()
+            ..isAntiAlias = true
+            ..filterQuality = FilterQuality.high
+            ..strokeWidth = 0.5
+            ..color = this.chartColors.gridPaintColor);
     }
     double columnSpace = chartRect.width / gridColumns;
     for (int i = 0; i <= columnSpace; i++) {
-      canvas.drawLine(Offset(columnSpace * i, topPadding / 3),
-          Offset(columnSpace * i, chartRect.bottom), gridPaint);
+      canvas.drawLine(
+          Offset(columnSpace * i, topPadding / 3),
+          Offset(columnSpace * i, chartRect.bottom),
+          Paint()
+            ..isAntiAlias = true
+            ..filterQuality = FilterQuality.high
+            ..strokeWidth = 0.5
+            ..color = this.chartColors.gridPaintColor);
     }
   }
 

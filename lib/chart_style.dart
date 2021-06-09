@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart' show Color;
 
 class ChartColors {
+  Color gridPaintColor = Color(0xFFD0CAE4);
+  Color chartPaintColor = Color(0xffC15466);
 
   Color kLineColor = Color(0xff4C86CD);
   Color lineFillColor = Color(0x554C86CD);
@@ -59,6 +61,8 @@ class ChartStyle {
 
   //蜡烛中间线的宽度
   double candleLineWidth = 1.5;
+
+  double lineStrokeWidth = 1.0;
 
   //vol柱子宽度
   double volWidth = 8.5;
